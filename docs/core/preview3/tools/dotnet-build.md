@@ -30,21 +30,19 @@ dotnet-build -- Builds a project and all of its dependencies
 
 ## Description
 
-The `dotnet build` command builds multiple source file from a source project and its dependencies into a binary. 
-By default, the resulting binary is in Intermediate Language (IL) and has a DLL extension. 
-`dotnet build` also drops a `*.deps` file which outlines what the host needs to run the application.  
+The `dotnet build` command builds the project and its dependencies into a set of binaries. The binaries are the symbol files used for debugging (having a `*.pdb` extension) as well as the project's code in Intermediate Language (IL) with an `*.dll` extension. Additionally, a JSON file that lists out the dependencies of the application with the `*.deps` extension will be produced. Finally, a `runtime.config.json` file will be produced as well. This file specifies which shared runtime and version the built code will run against. 
 
-The `dotnet build` command builds the project and its dependencies into a set of binaries. The binaries are the symbol files used for debugging (having a `*.pdb` extension) as well as the project's code in Intermediate Language (IL) with an `*.dll` extension. 
+If the project has third-party dependencies, such as libraries from NuGet, these will be resolved from the NuGet cache and will not be available with the project's built output. With that in mind, the product of `dotnet build` is not ready to be transferred to another machine to run. This is in contrast to the behavior of .NET Framework in which building an executable project (an application) will produce an output that is possible to run on any machine that has .NET Framework installed. In order to get a similar experience in .NET Core, you have to use the [dotnet publish](dotnet-publish.md) command. More information about this can be found in the [.NET Core Application Deployment](../deploying/index.md) document. 
 
 Building requires the existence of an asset file (a file that lists all of the dependencies of your application), which 
 means that you have to run [`dotnet restore`](dotnet-restore.md) prior to building your code.
 
-Before any compilation begins, the `build` verb analyzes the project and its dependencies for incremental safety checks.
-If all checks pass, then build proceeds with incremental compilation of the project and its dependencies; 
-otherwise, it falls back to non-incremental compilation. Via a profile flag, users can choose to receive additional 
-information on how they can improve their build times.
+`dotnet build` uses MSBuild to build the project, thus it support both parallel builds and 
 
-In order to build an executable application instead of a library, you need to set the `<OutputType>` property:
+**TODO: add msbuild properties**
+
+Whether the project is executable or not is determined by the `<OutputType>` property in the project file. The following example shows a project that will produce executable code: 
+
 
 ```xml
 <PropertyGroup>
@@ -52,12 +50,7 @@ In order to build an executable application instead of a library, you need to se
 </PropertyGroup>
 ```
 
-Running `dotnet build` produces output that can be ran using the `dotnet` host. The output will contain the following:
-
-1. Intermmidiate language (IL) binary (DLL) that contains 
-2. 
-
-Rest of your application's dependencies will be resolved from the 
+In order to produce a library, simply omit that property. 
 
 ## Options
 
