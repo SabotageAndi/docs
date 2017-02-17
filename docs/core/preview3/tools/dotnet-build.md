@@ -34,6 +34,8 @@ The `dotnet build` command builds multiple source file from a source project and
 By default, the resulting binary is in Intermediate Language (IL) and has a DLL extension. 
 `dotnet build` also drops a `*.deps` file which outlines what the host needs to run the application.  
 
+The `dotnet build` command builds the project and its dependencies into a set of binaries. The binaries are the symbol files used for debugging (having a `*.pdb` extension) as well as the project's code in Intermediate Language (IL) with an `*.dll` extension. 
+
 Building requires the existence of an asset file (a file that lists all of the dependencies of your application), which 
 means that you have to run [`dotnet restore`](dotnet-restore.md) prior to building your code.
 
@@ -49,6 +51,13 @@ In order to build an executable application instead of a library, you need to se
     <OutputType>Exe</OutputType>
 </PropertyGroup>
 ```
+
+Running `dotnet build` produces output that can be ran using the `dotnet` host. The output will contain the following:
+
+1. Intermmidiate language (IL) binary (DLL) that contains 
+2. 
+
+Rest of your application's dependencies will be resolved from the 
 
 ## Options
 
