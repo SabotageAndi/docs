@@ -23,10 +23,12 @@ dotnet-build -- Builds a project and all of its dependencies
 
 ## Synopsis
 
-`dotnet build [--help] [--output]  [--framework]  
-    [--configuration]  [--runtime] [--version-suffix]
-    [--build-profile]  [--no-incremental] [--no-dependencies]
-    [<project>]`
+```
+dotnet build <project>
+dotnet build [-h|--help]
+dotnet build [-o|--output] [-f|--framework] [-c|--configuration] [-r|--runtime]
+dotnet build [--version-suffix] [--no-incremental] [--no-dependencies]
+```
 
 
 
@@ -77,10 +79,6 @@ Target runtime to build for. For a list of Runtime Identifiers (RIDs) you can us
 `--version-suffix [VERSION_SUFFIX]`
 
 Defines what `*` should be replaced with in the version field in the project file. The format follows NuGet's version guidelines. 
-
-`--build-profile`
-
-Prints out the incremental safety checks that users need to address in order for incremental compilation to be automatically turned on.
 
 `--no-incremental`
 

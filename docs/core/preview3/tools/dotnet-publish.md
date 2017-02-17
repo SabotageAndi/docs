@@ -24,10 +24,12 @@ ms.assetid: f2ef275a-7c5e-430a-8c30-65f52af62771
 
 ## Synopsis
 
-`dotnet publish [project] 
-    [--help] [--framework]  
-    [--runtime] [--output]  
-    [--version-suffix] [--configuration]`
+```
+dotnet publish <project>
+dotnet publish [-o|--output] [-f|--framework] [-c|--configuration] [-r|--runtime]
+dotnet publish [--version-suffix]
+dotnet publish [-h|--help]
+```
 
 ## Description
 
@@ -42,7 +44,7 @@ The `dotnet publish` command's output is ready to be transferred to a remote mac
 
 ## Options
 
-`[project]` 
+`<project>` 
 
 The project to publish, which defaults to the current directory if `[project]` is not specified. 
 
