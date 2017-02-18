@@ -15,7 +15,7 @@ ms.assetid: 1feadf3d-3cfc-41dd-abb5-a4fc303a7b53
 
 [!INCLUDE[preview-warning](../../../includes/warning.md)]
 
-This document will cover three main migration scenarios:
+This document will cover migration scenarios for .NET Core projects. It will cover the following three migration scenarios:
 
 1. Migration from a valid latest schema of `project.json` to `csproj`
 2. Migration from DNX to a valid Preview 2 project.json
@@ -29,4 +29,14 @@ The easiest option is to open up the solution in the
 ## Migration from DNX to Preview 2 project.json
 
 ## Migration from earlier .NET Core csproj formats to RTM csproj
-Prior to the final shape of .NET Core csproj format, there were variations that you could've started using. There is no automativ
+Prior to the final shape of .NET Core csproj format, there were variations that you could've started using. There is no tool that will migrate your project between these states, so the migration has to be done manually by editing the project file. The actual steps depend on the state of the project you are migrating. 
+
+* Remove the tools version property from the `<Project>` element if it exists. 
+* Remove the XML namespace (`xmlns`) from the `<Project>` element.
+* If it doesn't exist, add the `Sdk` attribute to the `<Project>` element and set it to the value of `Microsoft.NET.Sdk`. This attribute specifies that the project uses the Core SDK. 
+* Remove the `<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />` and `<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />` statements from the top and bottom of the project. These import statements are implied by the SDK, so there is no need for them to be in the project. 
+* If you have `Microsoft.NETCore.App` or `NETStandard.Library` `<PackageReference>` items in your project, you should remove them. The SDK has these references implied. 
+* Remove the `Microsoft.NET.Sdk` `<PackageReference>` element if it exists. The SDK reference comes through the `Sdk` attribute on the `<Project>` element. 
+* Remove those globs that are [implied by the SDK](https://aka.ms/sdkimplititems). Leaving these globs in your project will cause an error on build because compile items will be duplicated. 
+
+After these steps your project should be fully compatible with the v1 .NET Core csproj format. 
